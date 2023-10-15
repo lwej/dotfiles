@@ -1,22 +1,14 @@
 # i3 config file
 set $mod Mod4
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Sans Mono 8
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --ignore-sleep -- i3lock --nofork
-
-# Use polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# Background from: https://github.com/helpotters/dracula-wallpapers/
+exec_always --no-startup-id feh --bg-fill "$HOME/dracula-cat-282a36.png"
 
 # Lock screen with some fancy pixelation
 bindsym Control+$mod+l exec $HOME/.config/i3/lock.sh
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
 # Pulse Audio controls
@@ -34,11 +26,10 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-## Screenshots ()
+###############################################################################
+## Screenshots
 bindsym --release $mod+Shift+S exec --no-startup-id maim "$HOME/Pictures/Screenshot from $(date -u +%Y-%m-%dT%H:%M:%S)"
-
 # bindsym Shift+Print exec --no-startup-id maim --select "$HOME/Pictures/$(date)"
-
 ## Clipboard Screenshots
 bindsym --release Ctrl+Shift+S exec --no-startup-id "maim --select | xclip -selection clipboard -t image/png"
 
@@ -47,16 +38,14 @@ bindsym --release Ctrl+Shift+S exec --no-startup-id "maim --select | xclip -sele
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec --no-startup-id alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu
-#bindsym $mod+d exec "dmenu_run -nf '#C76464' -nb '#301818' -sb '#D86018' -sf '#FFFFFF' -fn 'monospace-10' -p 'dmenu prompt &gt;'"
-
 # use rofi instead of dmenu
 bindsym $mod+d exec --no-startup-id "rofi -show combi"
+# bindsym $mod+d exec "dmenu_run -nf '#C76464' -nb '#301818' -sb '#D86018' -sf '#FFFFFF' -fn 'monospace-10' -p 'dmenu prompt &gt;'"
 
 # change focus
 bindsym $mod+j focus left
@@ -92,8 +81,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f exec --no-startup-id "polybar-msg cmd toggle";
-# bindsym $mod+f fullscreen toggle
+bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -160,7 +148,7 @@ bindsym $mod+q exec rofi -show menu -modi "menu:rofi-power-menu --no-symbols"
 
 mode "resize" {
     # These bindings trigger as soon as you enter the resize mode
-    
+
     # Pressing left will shrink the window’s width.
     # Pressing right will grow the window’s width.
     # Pressing up will shrink the window’s height.
@@ -169,13 +157,13 @@ mode "resize" {
     bindsym k resize grow height 10 px or 10 ppt
     bindsym l resize shrink height 10 px or 10 ppt
     bindsym odiaeresis resize grow width 10 px or 10 ppt
-    
+
     # same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt
     bindsym Down resize grow height 10 px or 10 ppt
     bindsym Up resize shrink height 10 px or 10 ppt
     bindsym Right resize grow width 10 px or 10 ppt
-    
+
     # back to normal: Enter or Escape or $mod+r
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -190,7 +178,25 @@ client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
-
 client.background       #F8F8F2
+
+bar {
+    position top
+    font pango:monospace 10
+    separator_symbol "< "
+    status_command i3status
+    colors {
+    background #282A36
+    statusline #F8F8F2
+    separator  #44475A
+
+    focused_workspace  #44475A #44475A #F8F8F2
+    active_workspace   #282A36 #44475A #F8F8F2
+    inactive_workspace #282A36 #282A36 #BFBFBF
+    urgent_workspace   #FF5555 #FF5555 #F8F8F2
+    binding_mode       #FF5555 #FF5555 #F8F8F2
+    }
+}
+
 # Load Xresources
 exec xrdb ~/.Xresources

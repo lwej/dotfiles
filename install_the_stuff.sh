@@ -2,8 +2,10 @@
 
 # Just install the UI stuff
 sudo apt install \
-    ranger rofi bat i3 -y i3lock exa tldr scrot imagemagick maim polybar -y
+    ranger rofi bat i3 i3lock exa tldr scrot imagemagick maim alacritty -y
 
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 # Install Hack font https://github.com/source-foundry/Hack/
 cd ~/Downloads
 echo "Installing Hack font system-wide"
