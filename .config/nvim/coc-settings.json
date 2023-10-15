@@ -8,5 +8,6 @@
   "diagnostic.virtualTextCurrentLineOnly": true,
   "diagnostic-languageserver.filetypes": {
     "sh": "shellcheck"
-  }
+  },
+  "suggest.enablePreselect": true
 }
