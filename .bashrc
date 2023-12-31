@@ -1,7 +1,6 @@
 # Bash config; Not much to see here
 
-export TERM="xterm-256color"                     # getting proper colors
-export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
+export TERM="xterm-256color"
 
 # If not running interactively, don't do anything
 case $- in
@@ -26,7 +25,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -60,12 +59,16 @@ case "$TERM" in
     ;;
 esac
 
+############################# Aliaseses ################################
+if [ -f "$HOME/.bash_aliases" ]; then
+    . "$HOME/.bash_aliases"
+fi
 
 ############################# KEEP HISRTORY #############################
 
-HISTCONTROL=ignoreboth      # Ignore dupes and lines starting with space
-HISTSIZE=10000                                          # history length
-HISTFILESIZE=2000
+export HISTCONTROL=ignoredups:erasedups
+export HISTSIZE=10000
+export HISTFILESIZE=5000
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -73,18 +76,6 @@ shopt -s cdspell
 shopt -s cmdhist
 shopt -s expand_aliases
 shopt -s checkwinsize
-
-
-################# ALIASES, to be moved to .bash_aliases #################
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias cat=batcat                                            # Fancier cat
-alias rttlog='systemctl --user restart rttlog'              # RTTlogger service
-# Changing "ls" to "exa"
-alias ls='exa -al --color=always --group-directories-first' # my preferred listing
-alias la='exa -a --color=always --group-directories-first'  # all files and dirs
-alias ll='exa -l --color=always --group-directories-first'  # long format
-alias lt='exa -aT --color=always --group-directories-first' # tree listing
-alias l.='exa -a | egrep "^\."'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -116,3 +107,12 @@ export PATH=~/personal/bin:"$PATH"
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+. "$HOME/.cargo/env"
+
+############################# Lazy SSH ##################################
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+  eval `ssh-agent`
+  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+ssh-add -l > /dev/null || ssh-add
