@@ -25,17 +25,22 @@ Xft.dpi:   100
 
 !! XTERM
 
-*VT100.colorBDMode:     true
-*VT100.colorBD:         red
-*VT100.colorULMode:     true
-*VT100.colorUL:         cyan
+*VT100.colorBDMode:    true
+*VT100.colorBD:        red
+*VT100.colorULMode:    true
+*VT100.colorUL:        cyan
 
+*VT100.locale:         true
 *VT100.veryBoldColors: 6
 
+
 ! Use a truetype font and size.
-xterm*faceName: Monospace
-xterm*faceSize: 8
-xterm.vt100.scaleHeight: 0.9
+*VT100.renderFont: true
+*VT100.faceName: Hack
+*VT100.faceSize: 8
+*VT100.scaleHeight: 0.9
+*VT100.veryBoldColors: 6
+
 !! Zoom keybindings
 *VT100.translations: #override \n\
   Ctrl <Key> minus: smaller-vt-font() \n\
