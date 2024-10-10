@@ -65,7 +65,7 @@ font:
     family: Hack
     style: Bold Italic
   # Point size
-  size: 10
+  size: 12
   offset:
     x: 0
     y: 1

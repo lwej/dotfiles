@@ -1,7 +1,7 @@
 # Bash config; Not much to see here
 
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
 export TERM="xterm-256color"
 
 # If not running interactively, don't do anything
@@ -68,9 +68,9 @@ fi
 
 ############################# KEEP HISRTORY #############################
 
-export HISTCONTROL=ignoredups:erasedups
-export HISTSIZE=10000
-export HISTFILESIZE=5000
+HISTCONTROL=ignoredups:erasedups
+HISTSIZE=50000
+HISTFILESIZE=50000
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -90,6 +90,10 @@ if ! shopt -oq posix; then
     fi
 fi
 
+# Does this conflict? Who knows
+source "/usr/share/bash-completion/completions/fzf"
+source "/usr/share/doc/fzf/examples/key-bindings.bash"
+
 ################################# PATHS #################################
 
 if [ -d "$HOME/.bin" ] ;
@@ -104,14 +108,15 @@ if [ -d "$HOME/Applications" ] ;
 then PATH="$HOME/Applications:$PATH"
 fi
 
-export PATH=~/personal/bin:"$PATH"
+if [ -d "$HOME/personal/bin" ] ;
+then PATH="$HOME/personal/bin:$PATH"
+fi
 
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+if [ -d "/usr/local/go/bin" ] ;
+then PATH="/usr/local/go/bin:$PATH"
+fi
 
-. "$HOME/.cargo/env"
-
-############################# Lazy SSH ##################################
+############################ Lazy SSH #################################
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
   eval $(ssh-agent)
   ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
@@ -119,8 +124,26 @@ fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 ssh-add -l > /dev/null || ssh-add
 
+############################ dev shit ###################################
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
 
-source "/usr/share/bash-completion/completions/fzf"
-source "/usr/share/doc/fzf/examples/key-bindings.bash"
+. "$HOME/.cargo/env"
+
+# fnm
+FNM_PATH="/home/$USER/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
+
+# ghcup
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"

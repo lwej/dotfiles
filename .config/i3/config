@@ -4,8 +4,9 @@ set $mod Mod4
 
 ## appearance ##
 # gaps supported on i3 4.22 and above
-# gaps inner 12
-# gaps outer 5
+gaps inner 12
+gaps outer 5
+smart_gaps on
 
 # Hide Title Bar
 for_window [class="^.*"] border pixel 3
@@ -15,12 +16,30 @@ for_window [class="^.*"] border pixel 3
 font pango:DejaVu Sans Mono 8
 
 # class                 border  bground text    indicator child_border
-client.focused          #A7C080 #A7C080 #2D353B #A7C080   #A7C080
-client.focused_inactive #3D484D #2D353B #859289 #3D484D   #3D484D
-client.unfocused        #3D484D #2D353B #859289 #3D484D   #3D484D
-client.urgent           #E67E80 #E67E80 #2D353B #E67E80   #E67E80
-client.placeholder      #2D353B #2D353B #859289 #2D353B   #2D353B
-client.background       #2D353B
+client.focused          #7AA4A1 #7AA4A1 #4E5157 #7AA4A1   #7AA4A1
+client.focused_inactive #4E5157 #152528 #EEEEEE #4E5157   #4E5157
+client.unfocused        #4E5157 #152528 #EEEEEE #4E5157   #4E5157
+client.urgent           #FDA47F #FDA47F #4E5157 #FDA47F   #FDA47F
+client.placeholder      #152528 #152528 #EEEEEE #152528   #152528
+client.background       #152528
+
+# client.focused          #A7C080 #A7C080 #2D353B #A7C080   #A7C080
+# client.focused_inactive #3D484D #2D353B #859289 #3D484D   #3D484D
+# client.unfocused        #3D484D #2D353B #859289 #3D484D   #3D484D
+# client.urgent           #E67E80 #E67E80 #2D353B #E67E80   #E67E80
+# client.placeholder      #2D353B #2D353B #859289 #2D353B   #2D353B
+# client.background       #2D353B
+
+# bar {
+#     colors {
+#          statusline #949494
+#          separator #4e4e4e
+#     }
+#     separator_symbol "|"
+#     position top
+#     status_command  python ~/.config/i3/status.py
+#     workspace_buttons yes
+# }
 
 bar {
     position top
@@ -28,11 +47,21 @@ bar {
     separator_symbol " \ "
     status_command i3status
     colors {
-        background      #2D353B
-        statusline      #D3C6AA
-        separator       #859289
+            background #152528
+            statusline #E6EAEA
+            separator  #FDB292
+            focused_workspace  #7AA4A1 #152528 #EEEEEE
+            active_workspace   #152528 #152528 #EEEEEE
+            inactive_workspace #152528 #152528 #7AA4A1
+            urgent_workspace   #2F343A #FDA47F #2F3239
+            binding_mode       #2F343A #FDA47F #2F3239
 
-        focused_workspace       #83C092  #83C092  #2D353B
+        # background      #152528
+        # statusline      #D3C6AA
+        # separator       #859289
+
+        # focused_workspace       #83C092  #83C092  #2D353B
+        #focused_workspace       #7aa4a1 #7aa4a1  #152528
    }
 }
 
@@ -44,10 +73,10 @@ bindsym $mod+w exec firefox
 # lock screen
 bindsym $mod+Control+l exec $HOME/.config/i3/lock.sh
 
-# screenshot area and save i3status
-bindsym --release $mod+Shift+S exec --no-startup-id maim "$HOME/Pictures/Screenshot from $(date -u +%Y-%m-%dT%H:%M:%S)"
+# screenshot area and save
+bindsym --release $mod+Shift+S exec --no-startup-id flameshot gui --path "$HOME/Pictures/$(date -u +%Y-%m-%dT%H:%M:%S)"
 # screenshot area to clipboard
-bindsym --release Ctrl+Shift+S exec --no-startup-id "maim --select | xclip -selection clipboard -t image/png"
+bindsym --release Ctrl+Shift+S exec --no-startup-id flameshot gui --clipboard
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -74,10 +103,10 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exit
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+odiaeresis focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -86,10 +115,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+odiaeresis move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -101,7 +130,7 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+p move workspace to output right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+b split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -171,10 +200,10 @@ mode "resize" {
     # Pressing right will grow the window’s width.
     # Pressing up will shrink the window’s height.
     # Pressing down will grow the window’s height.
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym odiaeresis resize grow width 10 px or 10 ppt
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
 
     # same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt
@@ -194,10 +223,12 @@ bindsym $mod+r mode "resize"
 ## display ##
 
 # Start feh to set wallpaper
-exec_always --no-startup-id feh --bg-fill "$HOME/Pictures/default.png"
+exec_always --no-startup-id feh --randomize --bg-fill ~/bin/solarized/wallpapers-solarized/*
+
+# exec_always --no-startup-id feh --bg-fill "$HOME/Pictures/default.jpeg"
 
 # Start Picom Compositor for Effects
-exec --no-startup-id picom --no-vsync
+exec --no-startup-id picom -b --no-vsync
 
 # set default sreen layout
 exec_always --no-startup-id sh "$HOME/.screenlayout/default.sh"

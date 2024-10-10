@@ -3,7 +3,7 @@
 # alacritty supports changing config realtime so just replace themename
 
 # alacritty.yml
-sed -i -e 's/colors: \*dark_everforest/colors: \*light_everforest/g' ~/.config/alacritty/alacritty.yml
+# sed -i -e 's/colors: \*default_dark/colors: \*default_light/g' ~/.config/alacritty/alacritty.yml
 
 # alacritty.toml
-sed -i -e 's#"~/.config/alacritty/themes/everforest_dark.toml"#"~/.config/alacritty/themes/everforest_light.toml"#g' ~/.config/alacritty/alacritty.toml
+sed -i -e 's/default_dark/default_light/g' ~/.config/alacritty/alacritty.toml
