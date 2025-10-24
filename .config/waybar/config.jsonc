@@ -1,0 +1,140 @@
+{
+	"reload_style_on_change": true,
+	"layer": "top", // Waybar at top layer
+	"position": "top", // Waybar at the bottom of your screen
+	// Bar height is based on the css font size. Don't forget to change the tray icon size!
+	// "width": 1366, // Waybar width
+	// Choose the order of the modules
+	"modules-left": ["sway/workspaces"],
+	"modules-right": ["sway/language","tray","custom/sunpaper", "pulseaudio#mic", "pulseaudio", "cpu", "memory", "battery", "clock", "group/power"],
+	"modules-center": ["sway/window"],
+
+	"sway/language": {
+		"format": "{}",
+		"format-en": "En",
+		"format-se": "Se",
+	},
+	"sway/workspaces": {
+		"disable-scroll": false,
+		"all-outputs": false,
+		"active-only": true,
+		"show-special": false,
+		"format": "{name}"
+	},
+	"sway/window": {
+	    "format": "{}",
+	    "icon": false,
+	    "separate-outputs": true
+	},
+	"tray": {
+		"icon-size": 17,
+		"spacing": 10
+	},
+
+	"custom/sunpaper": {
+  	"exec": "$HOME/bin/sunpaper/sunpaper.sh --waybar",
+  	"interval": 60,
+  	"return-type": "json"
+	},
+
+	"clock": {
+		"interval": 5,
+		"format-alt": "{:%Y-%m-%d}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>",
+		"calendar": {
+							"mode"          : "month",
+							"mode-mon-col"  : 3,
+							"weeks-pos"     : "right",
+							"on-scroll"     : 1,
+							"format": {
+									  "months":     "<span color='#ffead3'><b>{}</b></span>",
+									  "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+									  "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+									  "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+									  "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+					}
+		}
+	},
+	"cpu": {
+		"format": "{usage}%  ",
+		"interval": 5,
+	},
+	"memory": {
+		"format": "{}%  ",
+		"interval": 5,
+	},
+	"battery": {
+		"interval": 5,
+		"states": {
+			"good": 90,
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "{capacity}% {icon}",
+		// "format-good": "", // An empty format will hide the module
+		// "format-full": "",
+		"format-icons": [" ", " ", " ", " ", " "]
+	},
+	"network": {
+		// "interface": "wlp2s0", // (Optional) To force the use of this interface
+		"interval": 10,
+		"format-wifi": "{essid} ({signalStrength}%)  ",
+		"format-ethernet": "{ifname}  ",
+		"format-disconnected": "Disconnected ⚠ ",
+		"tooltip-format": "{ipaddr}/{cidr}",
+		//"on-click": "hyprctl dispatch exec \"[float] foot -W 80x24 nmtui\""
+	},
+	"pulseaudio": {
+		"scroll-step": 1,
+		"format": "{volume}% {icon} ",
+		"format-bluetooth": "{volume}% {icon} ",
+		"format-muted": " ",
+		"format-icons": {
+			"headphones": " ",
+			"handsfree": " ",
+			"headset": " ",
+			"phone": " ",
+			"portable": " ",
+			"car": " ",
+			"default": [" ", " "]
+		},
+		"on-click": "pavucontrol"
+	},
+
+	"pulseaudio#mic": {
+			"scroll-step": 0,
+			"format": "{format_source}",
+			"format-source": " ",
+			"format-source-muted": " ",
+			"on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+		},
+
+	"group/power": {
+		"orientation": "inherit",
+		"drawer": {
+			"transition-duration": 500,
+			"children-class": "not-power",
+			"transition-left-to-right": false,
+		},
+		"modules": [
+			"custom/power", // First element is the "group leader" and won't ever be hidden
+			"custom/lock",
+			"custom/exit",
+		]
+	},
+	"custom/exit": {
+		"format": " 󰗼 ",
+		"tooltip": false,
+		"on-click": "loginctl terminate-session ${XDG_SESSION_ID-}"
+	},
+	"custom/lock": {
+		"format": " 󰍁 ",
+		"tooltip": false,
+		"on-click": "swaylock"
+	},
+	"custom/power": {
+		"format": "  ",
+		"tooltip": false,
+		"on-click": "rofi -show menu -modi \"menu:$HOME/.local/bin/rofi-power-menu --choices=shutdown/reboot/suspend\""
+	}
+}

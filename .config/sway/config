@@ -1,4 +1,4 @@
-# i3 config file
+# Sway config file
 
 set $mod Mod4
 
@@ -8,6 +8,8 @@ gaps inner 12
 gaps outer 5
 smart_gaps on
 
+exec_always --no-startup-id $HOME/.config/sway/swayinit.sh
+include /etc/sway/config.d/*
 # Hide Title Bar
 for_window [class="^.*"] border pixel 3
 
@@ -42,75 +44,53 @@ set $base #1e1e2e
 set $mantle #181825
 set $crust #11111b
 # target                 title     bg    text   indicator  border
-client.focused           $lavender $base $text  $rosewater $lavender
+client.focused           $peach    $base $text  $peach     $peach
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
 client.unfocused         $overlay0 $base $text  $rosewater $overlay0
 client.urgent            $peach    $base $peach $overlay0  $peach
 client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
 
+input type:keyboard {
+    xkb_layout "se"
+    xkb_options ctrl:nocaps
+}
+
 # bar
 bar {
+  swaybar_command waybar
   position top
   font pango:monospace 10
   separator_symbol " | "
-  status_command i3status
+  #status_command i3status
   colors {
-    background         $base
-    statusline         $text
-    focused_statusline $text
-    focused_separator  $base
-    # target           border bg        text
-    focused_workspace  $base  $mauve    $crust
-    active_workspace   $base  $surface2 $text
-    inactive_workspace $base  $base     $text
-    urgent_workspace   $base  $red      $crust
+
+   # background         $base
+   # statusline         $text
+   # focused_statusline $text
+   # focused_separator  $base
+   # # target           border bg        text
+   # focused_workspace  $base  $mauve    $crust
+   # active_workspace   $base  $surface2 $text
+   # # inactive_workspace $base  $base     $text
+   # urgent_workspace   $base  $red      $crust
   }
 }
-
-# Solarized
-# class                 border  bground text    indicator child_border
-# client.focused          #7AA4A1 #7AA4A1 #4E5157 #7AA4A1   #7AA4A1
-# client.focused_inactive #4E5157 #152528 #EEEEEE #4E5157   #4E5157
-# client.unfocused        #4E5157 #152528 #EEEEEE #4E5157   #4E5157
-# client.urgent           #FDA47F #FDA47F #4E5157 #FDA47F   #FDA47F
-# client.placeholder      #152528 #152528 #EEEEEE #152528   #152528
-# client.background       #152528
-
-# bar {
-#     position top
-#     font pango:monospace 10
-#     separator_symbol " \ "
-#     status_command i3status
-#     colors {
-#             background #152528
-#             statusline #E6EAEA
-#             separator  #FDB292
-#             focused_workspace  #7AA4A1 #152528 #EEEEEE
-#             active_workspace   #152528 #152528 #EEEEEE
-#             inactive_workspace #152528 #152528 #7AA4A1
-#             urgent_workspace   #2F343A #FDA47F #2F3239
-#             binding_mode       #2F343A #FDA47F #2F3239
-# 
-#         # background      #152528
-#         # statusline      #D3C6AA
-#         # separator       #859289
-# 
-#         # focused_workspace       #83C092  #83C092  #2D353B
-#         #focused_workspace       #7aa4a1 #7aa4a1  #152528
-#    }
-# }
 
 ## keybindings ##
 
 # start firefox
 bindsym $mod+w exec firefox
 
+# start qutebrowser
+bindsym $mod+n exec $HOME/bin/qutebrowser/.venv/bin/python3 -m qutebrowser "$@"
+
 # lock screen
-bindsym $mod+Control+l exec $HOME/.config/i3/lock.sh
+bindsym $mod+Control+l exec swaylock --image $HOME/bin/catppuccin-wallpapers/misc/windows-error.jpg 
 
 # screenshot area and save
 bindsym --release $mod+Shift+S exec --no-startup-id flameshot gui --path "$HOME/Pictures/$(date -u +%Y-%m-%dT%H:%M:%S)"
+
 # screenshot area to clipboard
 bindsym --release Ctrl+Shift+S exec --no-startup-id flameshot gui --clipboard
 
@@ -123,11 +103,14 @@ bindsym $mod+Return exec --no-startup-id alacritty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start rofi (instead of dmenu)
+# Rofi as launcher
 bindsym $mod+d exec --no-startup-id "rofi -show combi"
+# launch apps through fzf 
+#bindsym $mod+d exec alacritty --class 'launcher' --command bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'
+#for_window [app_id="^launcher$"] floating enable, border none, resize set width 25 ppt height 20 ppt, move position 0 px 0 px
 
 # show power options (https://github.com/jluttine/rofi-power-menu)
-bindsym $mod+q exec rofi -show menu -modi "menu:rofi-power-menu --no-symbols"
+bindsym $mod+q exec rofi -show menu -modi "menu:$HOME/.local/bin/rofi-power-menu --no-symbols"
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -259,20 +242,36 @@ bindsym $mod+r mode "resize"
 ## display ##
 
 # Start feh to set wallpaper
-exec_always --no-startup-id feh --randomize --bg-fill ~/bin/catppuccin-wallpapers/*
+# Handled by sunpaper
+# exec_always --no-startup-id feh --randomize --bg-fill ~/bin/catppuccin-wallpapers/*
+
 
 # exec_always --no-startup-id feh --bg-fill "$HOME/Pictures/default.jpeg"
 
 # Start Picom Compositor for Effects
-exec --no-startup-id picom -b --no-vsync
+# exec --no-startup-id picom -b --no-vsync
 
 # set default sreen layout
-exec_always --no-startup-id sh "$HOME/.screenlayout/default.sh"
+#exec_always --no-startup-id sh "$HOME/.screenlayout/default.sh"
 
 ## misc ##
-exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet --indicator
 
-# Load Xresources
-exec xrdb ~/.Xresources
 
-exec --no-startup-id xss-lock --ignore-sleep -- i3lock --nofork
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+bindsym --locked XF86MonBrightnessUp exec --no-startup-id light -A 10
+bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10
+
+exec swayidle -w \
+	timeout 1800 'swaylock -f' \
+	timeout 1805 'swaymsg "output * power off"' \
+		resume 'swaymsg "output * power on"'
+
+exec_always $HOME/bin/sunpaper/sunpaper.sh -d
+set $laptop eDP-1
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable

@@ -1,5 +1,4 @@
-# Set the theme to "TwoDark"
---theme="ansi"
+--theme="Catppuccin Mocha"
 
 # Git modifications and file header (but no grid)
 --style="changes,header"
