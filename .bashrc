@@ -90,9 +90,8 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# Does this conflict? Who knows
-source "/usr/share/bash-completion/completions/fzf"
-source "/usr/share/doc/fzf/examples/key-bindings.bash"
+[ -f "/usr/share/bash-completion/completions/fzf" ] && source "/usr/share/bash-completion/completions/fzf"
+[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ] && source "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 ################################# PATHS #################################
 
@@ -146,4 +145,4 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 # ghcup
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+[ -r "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
