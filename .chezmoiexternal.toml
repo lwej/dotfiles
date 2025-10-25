@@ -1,0 +1,24 @@
+[".config/alacritty-themes"]
+    type = "git-repo"
+    url = "https://github.com/alacritty/alacritty-theme.git"
+
+[".config/rofi/themes"]
+    type = "git-repo"
+    url = "https://github.com/catppuccin/rofi.git"
+
+[".local/bin/rofi-power-menu"]
+    type = "git-repo"
+    url = "https://github.com/jluttine/rofi-power-menu.git"
+
+["tools/darkman"]
+    type = "git-repo"
+    url = "https://gitlab.com/WhyNotHugo/darkman.git"
+
+["tools/neovim"]
+    type = "git-repo"
+    url = "https://github.com/neovim/neovim.git"
+    refreshPeriod = "168h"
+
+["Pictures/catppuccin-wallpapers"]
+    type = "git-repo"
+    url = "https://github.com/zhichaoh/catppuccin-wallpapers.git"

@@ -1,0 +1,22 @@
+{{- $filteredPackages :=
+	jq (cat "(.chezmoi.osRelease.id | if . == \"ubuntu\" then \"debian\" else . end) as $key"
+			 "| . as $flags | .packages.[$key]"
+			 "| map_values(map(strings, (objects | select(.[] | all($flags.[.])) | keys.[0])))") . -}}
+{{- with first $filteredPackages -}}
+#!/bin/bash
+mkdir ~/.local/bin -p
+{{ if hasKey . "apt" -}}
+echo • INSTALLING WITH APT •
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt install {{ .apt | join " " }} -y
+
+{{ end -}}
+
+{{ if hasKey . "finalize" -}}
+echo • FINALIZING PROGRAM INSTALLATION WITH CUSTOM SCRIPTS •
+
+{{ .finalize | join "\n" }}
+{{ end -}}
+{{ end -}}

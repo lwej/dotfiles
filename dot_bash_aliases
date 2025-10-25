@@ -1,6 +1,5 @@
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cat=batcat                                            # Fancier cat
-alias rttlog='systemctl --user restart rttlog'              # RTTlogger service
 alias cz=chezmoi
 
 # Changing "ls" to "exa"
@@ -42,4 +41,9 @@ _fzf_comprun() {
     ssh)          fzf --preview 'dig {}'                   "$@" ;;
     *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
   esac
+}
+
+function tmpc() {
+    dir=$(mktemp -d)
+    cd "$dir" || exit
 }

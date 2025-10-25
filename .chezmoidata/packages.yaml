@@ -1,0 +1,32 @@
+packages:
+  debian:
+    apt:
+      - alacritty
+      - bat
+      - exa
+      - fd-find
+      - fzf
+      - git
+      - git-extras
+      - golang           # darkman dependency
+      - ranger
+      - ripgrep
+      - rofi
+      - scdoc            # darkman dependency
+      - shellcheck
+      - tldr
+      - i3:
+        - wm_i3
+      - i3lock:
+        - wm_i3
+      - hyprland:
+        - wm_hypr
+      - wofi:
+        - wm_hypr
+      - swaylock:
+        - wm_sway
+      - waybar:
+        - wm_sway
+      - sway:
+        - wm_sway
+    finalize: []

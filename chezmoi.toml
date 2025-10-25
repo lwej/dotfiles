@@ -1,0 +1,12 @@
+[progress]
+    true
+
+[scriptEnv]
+    NVIM_SOURCE_PATH="~/tools/neovim/"
+    DARKMAN_SOURCE_PATH="~/tools/darkman"
+    DARKMAN_LIGHT_CONF_PATH="~/.config/darkman/light-mode.d"
+    DARKMAN_DARK_CONF_PATH="~/.config/darkman/dark-mode.d"
+
+[data]
+    private_ = false
+
